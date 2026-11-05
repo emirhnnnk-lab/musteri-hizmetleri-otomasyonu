@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><title>Temsilci Onay Paneli</title>
+<style>
+body{font-family:"Segoe UI",Arial,sans-serif;background:#f4f6f8;margin:0;color:#1d2733}
+header{background:#123a5c;color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:18px;margin:0}.sayac{font-size:13px;opacity:.9}
+main{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;padding:18px 24px}
+h2{font-size:14px;text-transform:uppercase;letter-spacing:.5px;color:#123a5c;margin:0 0 10px}
+.kart{background:#fff;border-radius:8px;padding:12px 14px;margin-bottom:10px;box-shadow:0 1px 3px #0001}
+.ust{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;font-size:12px}
+.etiket{padding:2px 8px;border-radius:10px;background:#e8eef4}
+.olumsuz{background:#fde2e1;color:#9b1c1c}.oto{background:#dff3e4;color:#14532d}.bekle{background:#fff1d6;color:#7a4b00}
+.metin{font-size:14px;margin:6px 0}.gerekce{font-size:12px;color:#5b6775}
+textarea{width:100%;box-sizing:border-box;min-height:60px;font:inherit;font-size:13px;margin:6px 0}
+button{border:0;border-radius:6px;padding:7px 14px;cursor:pointer;font-weight:600}
+.onay{background:#1f7a3a;color:#fff}.ret{background:#e5e7eb;margin-left:6px}
+.bos{color:#7b8794;font-size:13px}
+</style></head><body>
+<header><h1>Müşteri Hizmetleri · Temsilci Onay Paneli</h1><span class="sayac" id="sayac"></span></header>
+<main>
+<section><h2>Onay bekleyenler</h2><div id="kuyruk"></div></section>
+<section><h2>Son işlemler</h2><div id="gecmis"></div></section>
+</main>
+<script>
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function ust(m){const a=JSON.parse(m.analiz);return `<div class="ust"><span class="etiket">${esc(m.kanal)}</span>
+<span class="etiket">${esc(a.niyet)}</span><span class="etiket ${a.duygu=='olumsuz'?'olumsuz':''}">${esc(a.duygu)}</span>
+${a.siparis_no?`<span class="etiket">${esc(a.siparis_no)}</span>`:''}<span class="etiket">güven ${(+a.guven).toFixed(2)}</span></div>`}
+async function yukle(){
+ const [k,t]=await Promise.all([fetch('kuyruk').then(r=>r.json()),fetch('mesajlar').then(r=>r.json())]);
+ const oto=t.filter(m=>m.aksiyon=='otomatik_yanit').length;
+ document.getElementById('sayac').textContent=`${t.length} mesaj · ${oto} otomatik · ${k.length} onay bekliyor`;
+ document.getElementById('kuyruk').innerHTML=k.length?k.map(m=>`<div class="kart">${ust(m)}
+ <div class="metin">“${esc(m.metin)}”</div><div class="gerekce">Neden insana geldi: ${esc(m.gerekce)}</div>
+ <textarea id="y${m.id}">${esc(m.yanit)}</textarea>
+ <button class="onay" onclick="karar(${m.id},true)">Onayla ve gönder</button><button class="ret" onclick="karar(${m.id},false)">Reddet</button></div>`).join(''):'<p class="bos">Bekleyen mesaj yok.</p>';
+ document.getElementById('gecmis').innerHTML=t.filter(m=>m.durum!='onay_bekliyor').slice(0,12).map(m=>`<div class="kart">${ust(m)}
+ <div class="metin">“${esc(m.metin)}”</div><div class="ust"><span class="etiket ${m.aksiyon=='otomatik_yanit'?'oto':'bekle'}">${m.aksiyon=='otomatik_yanit'?'otomatik yanıt':'temsilci: '+esc(m.durum)}</span></div>
+ <div class="gerekce">→ ${esc(m.yanit)}</div></div>`).join('')||'<p class="bos">Henüz işlem yok.</p>';
+}
+async function karar(id,onay){await fetch('kuyruk/'+id,{method:'POST',headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({onay,yanit:document.getElementById('y'+id).value})});yukle()}
+yukle();setInterval(yukle,4000);
+</script></body></html>

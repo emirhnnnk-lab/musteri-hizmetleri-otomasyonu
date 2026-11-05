@@ -1,0 +1,251 @@
+{
+  "mod": "sadece_llm",
+  "model": "qwen2.5:3b",
+  "ornek": 24,
+  "niyet_dogrulugu": "4/24",
+  "yonlendirme_dogrulugu": "16/24",
+  "kritik_hata_riskli_mesaj_otomatik_gitti": 0,
+  "sure_sn": 59.7,
+  "hatalar": [
+    {
+      "metin": "Merhaba SP-100231 numaralı siparişim nerede acaba?",
+      "beklenen": [
+        "kargo_takip",
+        "otomatik_yanit"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "siparişim hala gelmedi ne zaman gelir",
+      "beklenen": [
+        "kargo_takip",
+        "otomatik_yanit"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "SP 100233 kargoya verildi mi?",
+      "beklenen": [
+        "kargo_takip",
+        "otomatik_yanit"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Kot ceketim ne zaman elime ulaşır, sipariş no SP-100234",
+      "beklenen": [
+        "kargo_takip",
+        "otomatik_yanit"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "SP-999999 siparişimin durumu nedir?",
+      "beklenen": [
+        "kargo_takip",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "İade için kaç günüm var?",
+      "beklenen": [
+        "urun_sorusu",
+        "otomatik_yanit"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Kargo ücreti ne kadar, ücretsiz kargo var mı?",
+      "beklenen": [
+        "urun_sorusu",
+        "otomatik_yanit"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Beden tablosunu nereden görebilirim?",
+      "beklenen": [
+        "urun_sorusu",
+        "otomatik_yanit"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Kapıda ödeme yapabiliyor muyum?",
+      "beklenen": [
+        "urun_sorusu",
+        "otomatik_yanit"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Bu botun su geçirmezlik özelliği var mı?",
+      "beklenen": [
+        "urun_sorusu",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "SP-100232 kazak küçük geldi, iade etmek istiyorum",
+      "beklenen": [
+        "iade_talebi",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Aldığım ayakkabıyı bir büyük numarayla değiştirmek istiyorum",
+      "beklenen": [
+        "iade_talebi",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Kartımdan iki kere para çekilmiş, lütfen kontrol edin",
+      "beklenen": [
+        "odeme_sorunu",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "İade ettiğim ürünün parası 10 gündür hesabıma yatmadı",
+      "beklenen": [
+        "odeme_sorunu",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Ürün kırık geldi, rezalet bir paketleme",
+      "beklenen": [
+        "sikayet",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Yanlış renk göndermişsiniz, çok sinirliyim",
+      "beklenen": [
+        "sikayet",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "SP-100231 nerede?? 3 gündür bekliyorum berbat bir hizmet, tüketici hakem heyetine gideceğim",
+      "beklenen": [
+        "kargo_takip",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Siparişim nerede? numaram 05321234567 beni arayın",
+      "beklenen": [
+        "kargo_takip",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "Kartım 4543 1234 5678 9012 ile ödeme geçmedi",
+      "beklenen": [
+        "odeme_sorunu",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    },
+    {
+      "metin": "SP-100233 siparişimi iptal edin lütfen",
+      "beklenen": [
+        "iade_talebi",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    }
+  ]
+}

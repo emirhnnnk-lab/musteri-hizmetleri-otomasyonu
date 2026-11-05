@@ -1,0 +1,47 @@
+{
+  "mod": "sadece_llm_ayrik",
+  "model": "qwen2.5:3b",
+  "ornek": 12,
+  "niyet_dogrulugu": "9/12",
+  "yonlendirme_dogrulugu": "11/12",
+  "kritik_hata_riskli_mesaj_otomatik_gitti": 0,
+  "sure_sn": 29.7,
+  "hatalar": [
+    {
+      "metin": "Ücretsiz kargo limiti kaç TL?",
+      "beklenen": [
+        "urun_sorusu",
+        "otomatik_yanit"
+      ],
+      "gelen": [
+        "kargo_takip",
+        "insan_onayi"
+      ],
+      "gerekce": "model emin değil (güven 0.50)"
+    },
+    {
+      "metin": "Siparişimi vazgeçtim, geri almak istemiyorum paramı verin",
+      "beklenen": [
+        "iade_talebi",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "urun_sorusu",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: urun_sorusu, duygu: olumsuz"
+    },
+    {
+      "metin": "Kutunun içinden eksik parça çıktı",
+      "beklenen": [
+        "sikayet",
+        "insan_onayi"
+      ],
+      "gelen": [
+        "diger",
+        "insan_onayi"
+      ],
+      "gerekce": "riskli konu: diger, duygu: notr"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "name": "Müşteri Hizmetleri Otomasyonu",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "musteri-mesaji",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1",
+      "name": "Gelen Mesaj (WhatsApp/E-posta)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 300],
+      "webhookId": "musteri-mesaji"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.ANALIZ_URL || 'http://127.0.0.1:8000' }}/analiz",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ kanal: $json.body.kanal || 'whatsapp', gonderen: $json.body.gonderen || 'anonim', metin: $json.body.metin }) }}",
+        "options": { "timeout": 240000 }
+      },
+      "id": "a2",
+      "name": "LLM Analiz + KVKK Maskeleme",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "strict", "version": 2 },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.aksiyon }}",
+              "rightValue": "otomatik_yanit",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a3",
+      "name": "Güvenli mi? (otomatik yanıt izni)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "s1", "name": "durum", "value": "otomatik_gonderildi", "type": "string" },
+            { "id": "s2", "name": "kanal", "value": "={{ $('Gelen Mesaj (WhatsApp/E-posta)').item.json.body.kanal || 'whatsapp' }}", "type": "string" },
+            { "id": "s3", "name": "yanit", "value": "={{ $json.yanit }}", "type": "string" },
+            { "id": "s4", "name": "mesaj_id", "value": "={{ $json.id }}", "type": "number" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a4",
+      "name": "Müşteriye Yanıt (simülasyon)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [720, 200],
+      "notes": "Gerçek kurulumda burası WhatsApp Business Cloud API veya SMTP düğümü olur."
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "t1", "name": "durum", "value": "temsilci_onayina_dustu", "type": "string" },
+            { "id": "t2", "name": "gerekce", "value": "={{ $json.gerekce }}", "type": "string" },
+            { "id": "t3", "name": "taslak", "value": "={{ $json.yanit }}", "type": "string" },
+            { "id": "t4", "name": "panel", "value": "={{ ($env.ANALIZ_URL || 'http://127.0.0.1:8000') + '/panel' }}", "type": "string" },
+            { "id": "t5", "name": "mesaj_id", "value": "={{ $json.id }}", "type": "number" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a5",
+      "name": "Temsilci Kuyruğu + Bildirim",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [720, 400],
+      "notes": "Gerçek kurulumda buraya Slack/Teams/e-posta bildirimi eklenir."
+    },
+    {
+      "parameters": { "respondWith": "allIncomingItems", "options": {} },
+      "id": "a6",
+      "name": "Sonucu Döndür",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [960, 300]
+    }
+  ],
+  "connections": {
+    "Gelen Mesaj (WhatsApp/E-posta)": { "main": [[{ "node": "LLM Analiz + KVKK Maskeleme", "type": "main", "index": 0 }]] },
+    "LLM Analiz + KVKK Maskeleme": { "main": [[{ "node": "Güvenli mi? (otomatik yanıt izni)", "type": "main", "index": 0 }]] },
+    "Güvenli mi? (otomatik yanıt izni)": {
+      "main": [
+        [{ "node": "Müşteriye Yanıt (simülasyon)", "type": "main", "index": 0 }],
+        [{ "node": "Temsilci Kuyruğu + Bildirim", "type": "main", "index": 0 }]
+      ]
+    },
+    "Müşteriye Yanıt (simülasyon)": { "main": [[{ "node": "Sonucu Döndür", "type": "main", "index": 0 }]] },
+    "Temsilci Kuyruğu + Bildirim": { "main": [[{ "node": "Sonucu Döndür", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}
