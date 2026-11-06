@@ -13,16 +13,21 @@ OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
 MODEL = os.getenv("LLM_MODEL", "qwen2.5:3b")
 BASE_URL = os.getenv("LLM_BASE_URL", "")
 API_KEY = os.getenv("LLM_API_KEY", "")
+REASONING = os.getenv("LLM_REASONING", "")  # örn. "low": düşünen modellerde gecikmeyi azaltır
+TIMEOUT = float(os.getenv("LLM_TIMEOUT", "180"))
 
 
-def json_sohbet(sistem: str, kullanici: str, timeout: float = 180) -> dict:
+def json_sohbet(sistem: str, kullanici: str, timeout: float | None = None) -> dict:
     """Modelden JSON nesnesi ister. Bozuk JSON gelirse boş sözlük döner; doğrulamayı çağıran yapar."""
+    timeout = timeout or TIMEOUT
     mesajlar = [{"role": "system", "content": sistem}, {"role": "user", "content": kullanici}]
     if PROVIDER == "openai":
+        govde = {"model": MODEL, "messages": mesajlar, "temperature": 0,
+                 "response_format": {"type": "json_object"}}
+        if REASONING:
+            govde["reasoning_effort"] = REASONING
         r = httpx.post(f"{BASE_URL.rstrip('/')}/chat/completions", timeout=timeout,
-                       headers={"Authorization": f"Bearer {API_KEY}"},
-                       json={"model": MODEL, "messages": mesajlar, "temperature": 0,
-                             "response_format": {"type": "json_object"}})
+                       headers={"Authorization": f"Bearer {API_KEY}"}, json=govde)
         r.raise_for_status()
         icerik = r.json()["choices"][0]["message"]["content"]
     else:
