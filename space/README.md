@@ -11,3 +11,5 @@ short_description: LLM + KVKK maskeleme + insan onayı ile müşteri hizmetleri
 ---
 
 Müşteri mesajını KVKK uyumlu maskeler, LLM ile sınıflandırır; güvenli olanı şablonla cevaplar, riskli olanı temsilci onayına yollar.
+
+Kod, n8n akışı ve değerlendirme: [github.com/emirhnnnk-lab/musteri-hizmetleri-otomasyonu](https://github.com/emirhnnnk-lab/musteri-hizmetleri-otomasyonu)

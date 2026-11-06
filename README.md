@@ -2,6 +2,8 @@
 
 WhatsApp ve e-postadan gelen müşteri mesajlarını **n8n** ile alan, **LLM** ile sınıflandıran, güvenli olanları otomatik cevaplayan ve riskli olanları **temsilci onayına** düşüren bir otomasyon. Kişisel veriler LLM'e gitmeden **KVKK uyumlu şekilde maskelenir**.
 
+**🔴 Canlı demo:** [huggingface.co/spaces/emrhnnnnnn/musteri-hizmetleri-demo](https://huggingface.co/spaces/emrhnnnnnn/musteri-hizmetleri-demo) — mesaj yazın, sistemin kararını görün (OpenAI `gpt-5.4-mini`; kod: [`space/`](space)).
+
 ![n8n iş akışı](docs/n8n-akis.jpg)
 
 ![Temsilci onay paneli](docs/panel.png)
