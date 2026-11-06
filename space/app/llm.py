@@ -15,6 +15,8 @@ BASE_URL = os.getenv("LLM_BASE_URL", "")
 API_KEY = os.getenv("LLM_API_KEY", "")
 REASONING = os.getenv("LLM_REASONING", "")  # örn. "low": düşünen modellerde gecikmeyi azaltır
 TIMEOUT = float(os.getenv("LLM_TIMEOUT", "180"))
+# GPT-5 gibi akıl yürüten modeller temperature parametresini kabul etmez: LLM_TEMPERATURE=none
+TEMPERATURE = os.getenv("LLM_TEMPERATURE", "0")
 
 
 def json_sohbet(sistem: str, kullanici: str, timeout: float | None = None) -> dict:
@@ -22,8 +24,9 @@ def json_sohbet(sistem: str, kullanici: str, timeout: float | None = None) -> di
     timeout = timeout or TIMEOUT
     mesajlar = [{"role": "system", "content": sistem}, {"role": "user", "content": kullanici}]
     if PROVIDER == "openai":
-        govde = {"model": MODEL, "messages": mesajlar, "temperature": 0,
-                 "response_format": {"type": "json_object"}}
+        govde = {"model": MODEL, "messages": mesajlar, "response_format": {"type": "json_object"}}
+        if TEMPERATURE.lower() != "none":
+            govde["temperature"] = float(TEMPERATURE)
         if REASONING:
             govde["reasoning_effort"] = REASONING
         r = httpx.post(f"{BASE_URL.rstrip('/')}/chat/completions", timeout=timeout,

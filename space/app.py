@@ -1,14 +1,15 @@
 """Hugging Face Space demosu: mesajı yaz, sistemin kararını gör.
 
-Model: Gemini (OpenAI uyumlu uç nokta). Anahtar Space Secrets'taki LLM_API_KEY'den okunur.
+Model: OpenAI gpt-5.4-mini. Anahtar Space Secrets'taki LLM_API_KEY'den okunur.
 n8n akışı burada yok; n8n'in çağırdığı analiz + karar katmanı birebir aynı koddur.
 """
 import os
 
 os.environ.setdefault("LLM_PROVIDER", "openai")
-os.environ.setdefault("LLM_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai")
-os.environ.setdefault("LLM_MODEL", "gemini-3.8-flash")
+os.environ.setdefault("LLM_BASE_URL", "https://api.openai.com/v1")
+os.environ.setdefault("LLM_MODEL", "gpt-5.4-mini")
 os.environ.setdefault("LLM_REASONING", "low")
+os.environ.setdefault("LLM_TEMPERATURE", "none")
 os.environ.setdefault("LLM_TIMEOUT", "40")
 
 import gradio as gr  # noqa: E402
