@@ -40,7 +40,7 @@ Model: `qwen2.5:3b` (4 GB'lık GTX 1650), 24 mesaj yaklaşık 47 saniye. Sonuçl
 - **v2 (kritik hata 3-4):** Model bazen alakasız mesajlara SSS konusu uydurdu. "Teşekkürler, ürün harika geldi!" mesajına beden tablosu gönderildi; "ayakkabıyı değiştirmek istiyorum" iade yerine SSS sanıldı. **Bu kabul edilemezdi**, çünkü riskli bir mesaj müşteriye otomatik cevapla gitmiş oluyordu.
 - **v3:** İki katman ekledim. (1) **Dayanak kontrolü:** SSS cevabı ancak mesaj gerçekten o konudan bahsediyorsa veriliyor. (2) **Anahtar kelime güvenlik ağı:** "iade, değiştir, iptal, para çekildi, kırık" gibi ifadeler, niyeti sadece daha güvenli yöne çevirebiliyor. Kritik hata sıfıra indi.
 - **Kendimi kandırıyor muyum kontrolü:** Kuralları aynı 24 mesaja bakarak ayarladığım için skor şişmiş olabilirdi. O yüzden 12 yeni mesajlık ayrı bir set yazdım ve ona göre hiç ayar yapmadım. Orada da kritik hata sıfır, yönlendirme 11/12.
-- **Uçtan uca testte çıkan iki hata:** (1) Windows'ta `curl` Türkçe karakterleri bozuk gönderdi, model bozuk metni anlayamadı. Çözüm: UTF-8 gönderen [`ornek_gonder.py`](ornek_gonder.py). (2) Model gizlenmiş veriyi görüyordu, ama **veritabanına ve panele kartın gerçek numarası yazılıyordu**. Düzelttim ve testini ekledim.
+- **Uçtan uca testte çıkan gizlilik açığı:** Model gizlenmiş veriyi görüyordu, ama **veritabanına ve panele kartın gerçek numarası yazılıyordu**. Gizleme sadece modele giden yolda değil, kaydedilen her yerde olmalıydı. Düzelttim ve testini ekledim.
 
 ### Dürüst sınırlar
 - Ayrı test setinde kural katmanı niyeti anlama oranını artırmadı (8/12; sadece modelle 9/12). Kuralların asıl katkısı doğruluk değil **güvenlik**: riskli mesajın otomatik gitmesini engellemek.
