@@ -1,5 +1,7 @@
 # Müşteri Hizmetleri Otomasyonu (n8n + LLM + İnsan Onayı)
 
+> **EN summary:** Customer-service automation with n8n + a local LLM + human approval. Messages from WhatsApp/e-mail are PII-masked (KVKK/GDPR-style) before any model sees them, classified, and either answered automatically from templates with real order data or sent to an agent approval panel. Key design rule: the LLM never writes and sends free text on its own.
+
 WhatsApp ve e-postadan gelen müşteri mesajlarını **n8n** ile alan, **LLM** ile sınıflandıran, güvenli olanları otomatik cevaplayan ve riskli olanları **temsilci onayına** düşüren bir otomasyon. Kişisel veriler LLM'e gitmeden **KVKK uyumlu şekilde maskelenir**.
 
 **🔴 Canlı demo:** [huggingface.co/spaces/emrhnnnnnn/musteri-hizmetleri-demo](https://huggingface.co/spaces/emrhnnnnnn/musteri-hizmetleri-demo) — mesaj yazın, sistemin kararını görün (OpenAI `gpt-5.4-mini`; kod: [`space/`](space)).
