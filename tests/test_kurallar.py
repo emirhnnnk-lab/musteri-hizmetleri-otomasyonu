@@ -4,6 +4,7 @@ from fastapi.testclient import TestClient
 
 from app import analiz as A
 from app import kvkk
+from app.veri import SIPARISLER
 
 
 @pytest.fixture
@@ -24,7 +25,7 @@ def test_kargo_otomatik(model):
     model({"niyet": "kargo_takip", "siparis_no": "SP-100231", "duygu": "notr", "guven": 0.9})
     a, pii, _ = A.analiz_et("SP-100231 nerede?")
     k = A.karar_ver(a, pii)
-    assert k.aksiyon == "otomatik_yanit" and "7 Kasım" in k.yanit
+    assert k.aksiyon == "otomatik_yanit" and SIPARISLER["SP-100231"]["tahmini"] in k.yanit
 
 
 def test_uydurma_siparis_no_duzeltilir(model):
